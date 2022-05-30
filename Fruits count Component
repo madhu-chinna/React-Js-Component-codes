@@ -1,0 +1,56 @@
+import {Component} from 'react'
+import './index.css'
+
+class FruitsCounter extends Component {
+  state = {mangoesCount: 0, bananasCount: 0}
+
+  addMangoes = () => {
+    this.setState(prevState => {
+      console.log(`previous state value ${prevState.mangoesCount}`)
+      return {mangoesCount: prevState.mangoesCount + 1}
+    })
+  }
+
+  addBananas = () => {
+    this.setState(prevState => {
+      console.log(`previous state value ${prevState.bananasCount}`)
+      return {bananasCount: prevState.bananasCount + 1}
+    })
+  }
+
+  render() {
+    const {mangoesCount, bananasCount} = this.state
+    return (
+      <div className="main-container">
+        <h1>
+          Bob Ate <span className="count-style">{mangoesCount}</span> Mangoes
+          <span className="count-style">{bananasCount}</span> Bananas
+        </h1>
+        <div className="img-btn-container">
+          <div className="box">
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/mango-img.png"
+              alt="mango"
+              className="image-size"
+            />
+            <button type="button" onClick={this.addMangoes}>
+              Eat Mango
+            </button>
+          </div>
+          <div className="box">
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/banana-img.png"
+              alt="Banana"
+              className="image-size"
+            />
+            <button type="button" onClick={this.addBananas}>
+              Eat Banana
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
+export default FruitsCounter
