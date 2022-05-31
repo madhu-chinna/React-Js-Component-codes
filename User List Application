@@ -1,0 +1,212 @@
+User Profile 
+
+import './index.css'
+
+const UserProfile = props => {
+  const {userDetails, deleteUser} = props
+  const {imageUrl, name, role, uniqueNo} = userDetails
+  const onDelete = () => {
+    deleteUser(uniqueNo)
+  }
+  return (
+    <li className="user-card-container">
+      <img src={imageUrl} className="profile-pic" alt="profile-pic" />
+      <div className="user-details-container">
+        <h1 className="user-name"> {name} </h1>
+        <p className="user-designation"> {role} </p>
+      </div>
+      <button type="button" className="delete-button" onClick={onDelete}>
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/cross-img.png"
+          alt="cross"
+          className="delete-img"
+        />
+      </button>
+    </li>
+  )
+}
+
+export default UserProfile
+
+
+Index.css or User Profile
+
+.user-card-container {
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.profile-pic {
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+}
+
+.user-details-container {
+  margin-left: 12px;
+}
+
+.user-name {
+  font-size: 18px;
+  color: #12022f;
+  font-family: 'Roboto';
+  font-weight: bold;
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
+.user-designation {
+  font-family: 'Roboto';
+  font-size: 14px;
+  color: #594d6d;
+  margin: 0px;
+}
+
+.delete-button {
+  font-size: 30px;
+  font-weight: 500;
+  font-family: 'Roboto';
+  color: #594d6d;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 12px;
+  padding-left: 12px;
+  margin-left: 12px;
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+}
+
+.delete-img {
+  width: 15px;
+  height: 15px;
+}
+
+
+
+App.js
+
+import {Component} from 'react'
+import UserProfile from './components/UserProfile'
+
+import './App.css'
+
+const initialUserDetailsList = [
+  {
+    uniqueNo: 1,
+    imageUrl: 'https://assets.ccbp.in/frontend/react-js/esther-howard-img.png',
+    name: 'Esther Howard',
+    role: 'Software Developer',
+  },
+  {
+    uniqueNo: 2,
+    imageUrl: 'https://assets.ccbp.in/frontend/react-js/floyd-miles-img.png',
+    name: 'Floyd Miles',
+    role: 'Software Developer',
+  },
+  {
+    uniqueNo: 3,
+    imageUrl: 'https://assets.ccbp.in/frontend/react-js/jacob-jones-img.png',
+    name: 'Jacob Jones',
+    role: 'Software Developer',
+  },
+  {
+    uniqueNo: 4,
+    imageUrl: 'https://assets.ccbp.in/frontend/react-js/devon-lane-img.png',
+    name: 'Devon Lane',
+    role: 'Software Developer',
+  },
+  {
+    uniqueNo: 5,
+    imageUrl: 'https://assets.ccbp.in/frontend/react-js/floyd-miles-img.png',
+    name: 'Steve',
+    role: 'Software Developer',
+  },
+  {
+    uniqueNo: 6,
+    imageUrl: 'https://assets.ccbp.in/frontend/react-js/jacob-jones-img.png',
+    name: 'Mike',
+    role: 'Software Developer',
+  },
+  {
+    uniqueNo: 7,
+    imageUrl: 'https://assets.ccbp.in/frontend/react-js/floyd-miles-img.png',
+    name: 'Jack',
+    role: 'Software Developer',
+  },
+]
+
+class App extends Component {
+  state = {
+    searchInput: '',
+    usersDetailsList: initialUserDetailsList,
+  }
+
+  onChangeSearchInput = event => {
+    this.setState({
+      searchInput: event.target.value,
+    })
+  }
+
+  deleteUser = uniqueNo => {
+    const {usersDetailsList} = this.state
+    const filteredUsersData = usersDetailsList.filter(
+      each => each.uniqueNo !== uniqueNo,
+    )
+    this.setState({
+      usersDetailsList: filteredUsersData,
+    })
+  }
+
+  render() {
+    const {searchInput, usersDetailsList} = this.state
+    const searchResults = usersDetailsList.filter(eachUser =>
+      eachUser.name.includes(searchInput),
+    )
+    return (
+      <div className="app-container">
+        <h1 className="title">Users List</h1>
+        <input
+          type="search"
+          onChange={this.onChangeSearchInput}
+          value={searchInput}
+        />
+        <ul className="list-container">
+          {searchResults.map(eachUser => (
+            <UserProfile
+              userDetails={eachUser}
+              key={eachUser.uniqueNo}
+              deleteUser={this.deleteUser}
+            />
+          ))}
+        </ul>
+      </div>
+    )
+  }
+}
+
+export default App
+
+App. CSS
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.list-container {
+  list-style-type: none;
+  padding: 0;
+}
+
+.title {
+  font-family: 'Roboto';
+  font-size: 32px;
+  color: #183b56;
+  margin-bottom: 30px;
+}
+
