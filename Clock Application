@@ -1,0 +1,143 @@
+Index.Js
+
+import {Component} from 'react'
+import './index.css'
+
+class Clock extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {date: new Date()}
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(this.tick, 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID)
+  }
+
+  tick = () => {
+    this.setState({
+      date: new Date(),
+    })
+  }
+
+  render() {
+    const {date} = this.state
+    return (
+      <div className="clock-container">
+        <h1 className="heading">Clock</h1>
+        <p className="time">{date.toLocaleTimeString()}</p>
+      </div>
+    )
+  }
+}
+
+export default Clock
+
+Index.CSS
+
+.clock-container {
+  background-color: #ffffff15;
+  border-radius: 16px;
+  padding: 30px 50px 40px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.heading {
+  color: white;
+  font-size: 40px;
+  margin-bottom: 20px;
+  font-family: 'Roboto';
+  font-weight: 400;
+}
+
+.time {
+  color: white;
+  font-size: 60px;
+  margin: 20px;
+  font-family: 'Roboto';
+}
+
+
+App.Js
+
+import {Component} from 'react'
+import Clock from './components/Clock'
+
+import './App.css'
+
+class App extends Component {
+  state = {
+    showClock: false,
+  }
+
+  onToggleClock = () => {
+    this.setState(prevState => {
+      const {showClock} = prevState
+      return {
+        showClock: !showClock,
+      }
+    })
+  }
+
+  render() {
+    const {showClock} = this.state
+    return (
+      <div className="app-container">
+        <button
+          onClick={this.onToggleClock}
+          type="button"
+          className="toggle-button"
+        >
+          {showClock ? 'Show Clock' : 'Hide Clock'}
+        </button>
+        {showClock && <Clock />}
+      </div>
+    )
+  }
+}
+
+export default App
+
+APP.CSS
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-container {
+  height: 100vh;
+  background-color: #011526;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+}
+
+.toggle-button {
+  padding: 8px 12px;
+  margin-bottom: 30px;
+  color: #ffffff;
+  background-color: #2EC2B3;
+  border-radius: 4px;
+  font-weight: 400;
+  font-family: 'Roboto';
+  font-size: 16px;
+  border: none;
+}
+
+
